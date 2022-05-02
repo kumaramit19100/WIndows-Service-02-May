@@ -25,10 +25,21 @@ namespace WindowsService_01
             timer.Elapsed += new ElapsedEventHandler(Timer_Elap);
             timer.Enabled = true;
             timer.Interval = 100;
-            msg("Hello");
+            msg("Your message will be added start at - " + DateTime.Now);
+        }      
+
+        private void Timer_Elap(object sender, ElapsedEventArgs e)
+        {
+            //msg("hello");
+            //timer.Interval = 10000;
         }
 
-        private void msg(string v)
+        protected override void OnStop()
+        {
+            msg("Your message will be added stoop at - " + DateTime.Now);
+        }
+
+        private void msg(string message)
         {
             string path = @"E:\WindowsService\WindowsRegistryService_01_May.txt";
 
@@ -36,25 +47,16 @@ namespace WindowsService_01
             {
                 using (StreamWriter writer = File.CreateText(path))
                 {
-                    writer.WriteLine(v);
+                    writer.WriteLine(message);
                 }
             }
             else
             {
-                using(StreamWriter writer = File.AppendText(path))
+                using (StreamWriter writer = File.AppendText(path))
                 {
-                    writer.WriteLine(v);
+                    writer.WriteLine(message);
                 }
             }
-        }
-
-        private void Timer_Elap(object sender, ElapsedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void OnStop()
-        {
         }
     }
 }
